@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Applications from "./pages/Applications";
 import Farmers from "./pages/Farmers";
+import Fields from "./pages/Fields";
 import Alerts from "./pages/Alerts";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
@@ -32,6 +33,7 @@ const App = () => (
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/applications" element={<Applications />} />
                 <Route path="/farmers" element={<Farmers />} />
+                <Route path="/fields" element={<Fields />} />
                 <Route path="/alerts" element={<Alerts />} />
                 <Route path="/settings" element={<Settings />} />
               </Route>
