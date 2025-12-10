@@ -3,6 +3,7 @@ import {
   LayoutDashboard, 
   FileText, 
   Users, 
+  MapPin,
   AlertTriangle, 
   Settings,
   ChevronLeft,
@@ -16,6 +17,7 @@ const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/applications', icon: FileText, label: 'Loan Applications' },
   { to: '/farmers', icon: Users, label: 'Farm Directory' },
+  { to: '/fields', icon: MapPin, label: 'My Fields' },
   { to: '/alerts', icon: AlertTriangle, label: 'Risk Alerts' },
   { to: '/settings', icon: Settings, label: 'Settings' },
 ];
