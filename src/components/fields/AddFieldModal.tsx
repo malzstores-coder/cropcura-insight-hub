@@ -70,17 +70,17 @@ export function AddFieldModal({ isOpen, onClose, onSave }: AddFieldModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-4xl h-[85vh] flex flex-col p-0 gap-0">
-        <DialogHeader className="p-6 pb-4 border-b">
-          <DialogTitle className="text-xl flex items-center gap-2">
+      <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] flex flex-col p-0 gap-0 overflow-hidden">
+        <DialogHeader className="p-4 sm:p-6 pb-3 sm:pb-4 border-b flex-shrink-0">
+          <DialogTitle className="text-lg sm:text-xl flex items-center gap-2">
             <MapPin className="w-5 h-5 text-primary" />
             Add New Field
           </DialogTitle>
         </DialogHeader>
 
-        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden min-h-0">
           {/* Form Section */}
-          <div className="lg:w-80 p-6 border-b lg:border-b-0 lg:border-r space-y-4 overflow-y-auto">
+          <div className="lg:w-72 xl:w-80 p-4 sm:p-6 border-b lg:border-b-0 lg:border-r space-y-4 overflow-y-auto flex-shrink-0 bg-background relative z-10">
             <div className="space-y-2">
               <Label htmlFor="fieldName">Field Name</Label>
               <Input
@@ -107,12 +107,12 @@ export function AddFieldModal({ isOpen, onClose, onSave }: AddFieldModalProps) {
             <div className="pt-4 border-t">
               <h4 className="text-sm font-medium mb-2">Instructions</h4>
               <p className="text-sm text-muted-foreground">
-                Draw your field boundary on the map using the polygon tool in the top-right corner.
+                Draw your field boundary on the map using the polygon tool.
               </p>
               <ol className="text-sm text-muted-foreground mt-2 space-y-1 list-decimal list-inside">
                 <li>Click the polygon icon</li>
                 <li>Click on the map to add points</li>
-                <li>Click the first point to close the shape</li>
+                <li>Click the first point to close</li>
               </ol>
             </div>
 
@@ -126,7 +126,7 @@ export function AddFieldModal({ isOpen, onClose, onSave }: AddFieldModalProps) {
           </div>
 
           {/* Map Section */}
-          <div className="flex-1 relative min-h-[300px]">
+          <div className="flex-1 relative min-h-[250px] sm:min-h-[300px] lg:min-h-0">
             <FieldMap
               fields={[]}
               hoveredFieldId={null}
@@ -140,7 +140,7 @@ export function AddFieldModal({ isOpen, onClose, onSave }: AddFieldModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t flex justify-end gap-3">
+        <div className="p-4 border-t flex justify-end gap-3 flex-shrink-0 bg-background relative z-10">
           <Button variant="outline" onClick={handleClose}>
             Cancel
           </Button>
