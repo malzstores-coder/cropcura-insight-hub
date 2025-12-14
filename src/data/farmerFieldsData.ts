@@ -305,6 +305,161 @@ export const farmerFieldsMap: Record<string, Field[]> = {
       cropType: 'Cassava',
     },
   ],
+  // Kwame Mensah (FRM-1002)
+  'FRM-1002': [
+    {
+      id: 'field-14',
+      name: 'Northern Wheat Section',
+      coordinates: [
+        { lat: 0.5143, lng: 35.2698 },
+        { lat: 0.5153, lng: 35.2728 },
+        { lat: 0.5183, lng: 35.2718 },
+        { lat: 0.5173, lng: 35.2688 },
+      ],
+      healthStatus: 'healthy',
+      lastUpdated: 'Jan 14, 2024',
+      area: 3.2,
+      cropType: 'Wheat',
+    },
+    {
+      id: 'field-15',
+      name: 'Western Maize Plot',
+      coordinates: [
+        { lat: 0.5103, lng: 35.2658 },
+        { lat: 0.5113, lng: 35.2688 },
+        { lat: 0.5143, lng: 35.2678 },
+        { lat: 0.5133, lng: 35.2648 },
+      ],
+      healthStatus: 'moderate',
+      lastUpdated: 'Jan 11, 2024',
+      area: 2.8,
+      cropType: 'Maize',
+    },
+  ],
+  // Fatima Ibrahim (FRM-1003)
+  'FRM-1003': [
+    {
+      id: 'field-16',
+      name: 'Cassava Field A',
+      coordinates: [
+        { lat: -0.0917, lng: 34.7680 },
+        { lat: -0.0927, lng: 34.7710 },
+        { lat: -0.0957, lng: 34.7700 },
+        { lat: -0.0947, lng: 34.7670 },
+      ],
+      healthStatus: 'unhealthy',
+      lastUpdated: 'Jan 16, 2024',
+      area: 1.5,
+      cropType: 'Cassava',
+    },
+    {
+      id: 'field-17',
+      name: 'Cassava Field B',
+      coordinates: [
+        { lat: -0.0977, lng: 34.7690 },
+        { lat: -0.0987, lng: 34.7720 },
+        { lat: -0.1017, lng: 34.7710 },
+        { lat: -0.1007, lng: 34.7680 },
+      ],
+      healthStatus: 'moderate',
+      lastUpdated: 'Jan 13, 2024',
+      area: 2.0,
+      cropType: 'Cassava',
+    },
+  ],
+  // Oluwole Adeyemi (FRM-1004)
+  'FRM-1004': [
+    {
+      id: 'field-18',
+      name: 'Soybean Plot',
+      coordinates: [
+        { lat: -1.0432, lng: 37.0732 },
+        { lat: -1.0442, lng: 37.0762 },
+        { lat: -1.0472, lng: 37.0752 },
+        { lat: -1.0462, lng: 37.0722 },
+      ],
+      healthStatus: 'healthy',
+      lastUpdated: 'Jan 12, 2024',
+      area: 4.0,
+      cropType: 'Soybeans',
+    },
+    {
+      id: 'field-19',
+      name: 'Eastern Rice Paddy',
+      coordinates: [
+        { lat: -1.0492, lng: 37.0772 },
+        { lat: -1.0502, lng: 37.0802 },
+        { lat: -1.0532, lng: 37.0792 },
+        { lat: -1.0522, lng: 37.0762 },
+      ],
+      healthStatus: 'healthy',
+      lastUpdated: 'Jan 14, 2024',
+      area: 2.3,
+      cropType: 'Rice',
+    },
+  ],
+  // Ngozi Nwosu (FRM-1005)
+  'FRM-1005': [
+    {
+      id: 'field-20',
+      name: 'Rice Paddy East',
+      coordinates: [
+        { lat: -4.0435, lng: 39.6682 },
+        { lat: -4.0445, lng: 39.6712 },
+        { lat: -4.0475, lng: 39.6702 },
+        { lat: -4.0465, lng: 39.6672 },
+      ],
+      healthStatus: 'healthy',
+      lastUpdated: 'Jan 15, 2024',
+      area: 2.8,
+      cropType: 'Rice',
+    },
+    {
+      id: 'field-21',
+      name: 'Rice Paddy West',
+      coordinates: [
+        { lat: -4.0495, lng: 39.6642 },
+        { lat: -4.0505, lng: 39.6672 },
+        { lat: -4.0535, lng: 39.6662 },
+        { lat: -4.0525, lng: 39.6632 },
+      ],
+      healthStatus: 'moderate',
+      lastUpdated: 'Jan 10, 2024',
+      area: 2.2,
+      cropType: 'Rice',
+    },
+  ],
+  // Ibrahim Bello (FRM-1006)
+  'FRM-1006': [
+    {
+      id: 'field-22',
+      name: 'Central Maize Field',
+      coordinates: [
+        { lat: -1.1532, lng: 36.9532 },
+        { lat: -1.1542, lng: 36.9562 },
+        { lat: -1.1572, lng: 36.9552 },
+        { lat: -1.1562, lng: 36.9522 },
+      ],
+      healthStatus: 'healthy',
+      lastUpdated: 'Jan 14, 2024',
+      area: 3.5,
+      cropType: 'Maize',
+    },
+    {
+      id: 'field-23',
+      name: 'Southern Wheat Valley',
+      coordinates: [
+        { lat: -1.1592, lng: 36.9542 },
+        { lat: -1.1602, lng: 36.9572 },
+        { lat: -1.1632, lng: 36.9562 },
+        { lat: -1.1622, lng: 36.9532 },
+      ],
+      healthStatus: 'unhealthy',
+      lastUpdated: 'Jan 16, 2024',
+      area: 1.9,
+      cropType: 'Wheat',
+    },
+  ],
 };
 
 // Get fields for a farmer, with fallback empty array
