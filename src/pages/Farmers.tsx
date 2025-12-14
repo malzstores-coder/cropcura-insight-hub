@@ -1,17 +1,21 @@
 import { useState } from 'react';
 import { farmers } from '@/data/mockData';
+import { getFieldsForFarmer } from '@/data/farmerFieldsData';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { ScoreBadge } from '@/components/ui/ScoreBadge';
 import { RiskBadge } from '@/components/ui/RiskBadge';
+import { FarmerFieldsModal } from '@/components/farmers/FarmerFieldsModal';
 import { Search, LayoutGrid, List, MapPin, Wheat } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Farmer } from '@/types';
 
 export default function Farmers() {
   const [search, setSearch] = useState('');
   const [riskFilter, setRiskFilter] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [selectedFarmer, setSelectedFarmer] = useState<Farmer | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredFarmers = farmers.filter(farmer => {
     const matchesSearch = 
@@ -30,11 +34,18 @@ export default function Farmers() {
     soybeans: '🫘',
   };
 
+  const handleFarmerClick = (farmer: Farmer) => {
+    setSelectedFarmer(farmer);
+    setIsModalOpen(true);
+  };
+
+  const selectedFarmerFields = selectedFarmer ? getFieldsForFarmer(selectedFarmer.id) : [];
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
         <h1 className="text-2xl font-bold text-foreground">Farm Directory</h1>
-        <p className="text-muted-foreground mt-1">Browse and search registered farmers</p>
+        <p className="text-muted-foreground mt-1">Browse and search registered farmers. Click a name to view their fields.</p>
       </div>
 
       {/* Filters */}
@@ -95,7 +106,12 @@ export default function Farmers() {
             >
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h3 className="font-semibold text-foreground">{farmer.name}</h3>
+                  <button
+                    onClick={() => handleFarmerClick(farmer)}
+                    className="font-semibold text-foreground hover:text-primary transition-colors text-left"
+                  >
+                    {farmer.name}
+                  </button>
                   <p className="text-sm text-muted-foreground">{farmer.id}</p>
                 </div>
                 <span className="text-2xl">{cropIcons[farmer.cropType]}</span>
@@ -144,7 +160,12 @@ export default function Farmers() {
                   >
                     <td className="px-6 py-4">
                       <div>
-                        <p className="font-medium text-foreground">{farmer.name}</p>
+                        <button
+                          onClick={() => handleFarmerClick(farmer)}
+                          className="font-medium text-foreground hover:text-primary transition-colors text-left"
+                        >
+                          {farmer.name}
+                        </button>
                         <p className="text-sm text-muted-foreground">{farmer.id}</p>
                       </div>
                     </td>
@@ -179,6 +200,14 @@ export default function Farmers() {
           No farmers found matching your criteria
         </div>
       )}
+
+      {/* Farmer Fields Modal */}
+      <FarmerFieldsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        farmer={selectedFarmer}
+        fields={selectedFarmerFields}
+      />
     </div>
   );
 }
