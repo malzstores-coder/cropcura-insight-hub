@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
@@ -23,13 +23,13 @@ export function FieldMap({
   onFieldClick,
   isDrawingMode = false,
   onPolygonDrawn,
-  drawnCoordinates,
 }: FieldMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const polygonsRef = useRef<Map<string, L.Polygon>>(new Map());
   const drawnLayerRef = useRef<L.FeatureGroup | null>(null);
   const drawControlRef = useRef<L.Control.Draw | null>(null);
+  const popupRef = useRef<L.Popup | null>(null);
 
   // Initialize map
   useEffect(() => {
@@ -147,6 +147,11 @@ export function FieldMap({
     polygonsRef.current.forEach((polygon) => polygon.remove());
     polygonsRef.current.clear();
 
+    // Close any existing popup
+    if (popupRef.current) {
+      map.closePopup(popupRef.current);
+    }
+
     // Add field polygons
     fields.forEach((field) => {
       const latLngs = field.coordinates.map((c) => [c.lat, c.lng] as [number, number]);
@@ -155,13 +160,63 @@ export function FieldMap({
       const isSelected = selectedField?.id === field.id;
 
       const polygon = L.polygon(latLngs, {
-        color: isHovered || isSelected ? '#3b82f6' : color,
+        color: isHovered || isSelected ? '#ffffff' : color,
         fillColor: color,
-        fillOpacity: isHovered || isSelected ? 0.6 : 0.4,
-        weight: isHovered || isSelected ? 3 : 2,
+        fillOpacity: isHovered || isSelected ? 0.7 : 0.5,
+        weight: isHovered || isSelected ? 4 : 2,
       }).addTo(map);
 
-      polygon.on('click', () => onFieldClick(field));
+      // Create popup content with health info
+      const getHealthLabel = (status: string) => {
+        switch (status) {
+          case 'healthy': return '<span style="color: #22c55e; font-weight: bold;">● Healthy</span>';
+          case 'moderate': return '<span style="color: #eab308; font-weight: bold;">● Moderate</span>';
+          case 'unhealthy': return '<span style="color: #ef4444; font-weight: bold;">● Unhealthy</span>';
+          default: return status;
+        }
+      };
+
+      const popupContent = `
+        <div style="min-width: 180px; font-family: system-ui, sans-serif;">
+          <h3 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 600; color: #1f2937;">${field.name}</h3>
+          <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="color: #6b7280;">Crop Health:</span>
+              ${getHealthLabel(field.healthStatus)}
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: #6b7280;">Area:</span>
+              <span style="font-weight: 500;">${field.area} ha</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: #6b7280;">Crop:</span>
+              <span style="font-weight: 500;">${field.cropType || 'Mixed'}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: #6b7280;">Updated:</span>
+              <span style="font-weight: 500;">${field.lastUpdated}</span>
+            </div>
+          </div>
+          <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #e5e7eb;">
+            <div style="font-size: 10px; color: #9ca3af; text-transform: uppercase; margin-bottom: 4px;">Legend</div>
+            <div style="display: flex; gap: 8px; font-size: 10px;">
+              <span style="color: #22c55e;">● Healthy</span>
+              <span style="color: #eab308;">● Moderate</span>
+              <span style="color: #ef4444;">● Unhealthy</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      polygon.bindPopup(popupContent, {
+        maxWidth: 250,
+        className: 'field-health-popup',
+      });
+
+      polygon.on('click', () => {
+        onFieldClick(field);
+        polygon.openPopup();
+      });
 
       polygonsRef.current.set(field.id, polygon);
     });
@@ -192,19 +247,47 @@ export function FieldMap({
       const isSelected = selectedField?.id === fieldId;
 
       polygon.setStyle({
-        color: isHovered || isSelected ? '#3b82f6' : color,
-        fillOpacity: isHovered || isSelected ? 0.6 : 0.4,
-        weight: isHovered || isSelected ? 3 : 2,
+        color: isHovered || isSelected ? '#ffffff' : color,
+        fillOpacity: isHovered || isSelected ? 0.7 : 0.5,
+        weight: isHovered || isSelected ? 4 : 2,
       });
 
       if (isHovered && !isSelected) {
         const bounds = polygon.getBounds();
         map.panTo(bounds.getCenter());
       }
+
+      // Open popup for selected field
+      if (isSelected) {
+        polygon.openPopup();
+      }
     });
   }, [hoveredFieldId, selectedField, fields, isDrawingMode]);
 
   return (
-    <div ref={mapRef} className="w-full h-full rounded-xl overflow-hidden" />
+    <div className="w-full h-full relative">
+      <div ref={mapRef} className="w-full h-full rounded-xl overflow-hidden" />
+      
+      {/* Map Legend */}
+      {!isDrawingMode && fields.length > 0 && (
+        <div className="absolute bottom-4 left-4 bg-background/95 backdrop-blur-sm rounded-lg p-3 shadow-lg border border-border z-[500]">
+          <p className="text-xs font-semibold mb-2 text-foreground">Crop Health</p>
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 text-xs">
+              <span className="w-3 h-3 rounded-full bg-green-500"></span>
+              <span className="text-foreground">Healthy</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs">
+              <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
+              <span className="text-foreground">Moderate</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs">
+              <span className="w-3 h-3 rounded-full bg-red-500"></span>
+              <span className="text-foreground">Unhealthy</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
