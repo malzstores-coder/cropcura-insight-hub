@@ -260,6 +260,51 @@ export const farmerFieldsMap: Record<string, Field[]> = {
       cropType: 'Cassava',
     },
   ],
+  // Map fields to the demo farmer ID that starts with Amara Okonkwo (FRM-1001)
+  'FRM-1001': [
+    {
+      id: 'field-1',
+      name: 'Main Maize Plot',
+      coordinates: [
+        { lat: -1.2821, lng: 36.8219 },
+        { lat: -1.2831, lng: 36.8249 },
+        { lat: -1.2861, lng: 36.8239 },
+        { lat: -1.2851, lng: 36.8209 },
+      ],
+      healthStatus: 'healthy',
+      lastUpdated: 'Jan 12, 2024',
+      area: 2.5,
+      cropType: 'Maize',
+    },
+    {
+      id: 'field-2',
+      name: 'South Rice Field',
+      coordinates: [
+        { lat: -1.2881, lng: 36.8229 },
+        { lat: -1.2891, lng: 36.8259 },
+        { lat: -1.2921, lng: 36.8249 },
+        { lat: -1.2911, lng: 36.8219 },
+      ],
+      healthStatus: 'moderate',
+      lastUpdated: 'Jan 10, 2024',
+      area: 1.8,
+      cropType: 'Rice',
+    },
+    {
+      id: 'field-1c',
+      name: 'Eastern Cassava Farm',
+      coordinates: [
+        { lat: -1.2941, lng: 36.8279 },
+        { lat: -1.2951, lng: 36.8329 },
+        { lat: -1.3001, lng: 36.8319 },
+        { lat: -1.2991, lng: 36.8269 },
+      ],
+      healthStatus: 'healthy',
+      lastUpdated: 'Jan 15, 2024',
+      area: 6.2,
+      cropType: 'Cassava',
+    },
+  ],
 };
 
 // Get fields for a farmer, with fallback empty array
