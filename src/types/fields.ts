@@ -5,6 +5,20 @@ export interface FieldCoordinate {
   lng: number;
 }
 
+export interface CropScan {
+  id: string;
+  fieldId: string;
+  fieldName: string;
+  scanDate: string;
+  imageUrl: string;
+  healthStatus: HealthStatus;
+  ndviScore: number; // 0-1 scale
+  moistureLevel: 'low' | 'optimal' | 'high';
+  pestDetection: boolean;
+  diseaseDetection: string | null;
+  recommendations: string[];
+}
+
 export interface Field {
   id: string;
   name: string;
